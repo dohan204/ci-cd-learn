@@ -1,0 +1,10 @@
+name: hoc_git_action_thoi
+
+on: [push] #cứ có lệnh push là kích hoạt
+
+jobs: 
+  xin_chao:
+    runs-on: ubuntu-latest
+    steps: 
+      - name: In loi chao ra man hinh
+        run: echo "Chào fen!, Github action đầu tiên đã chạy thành công."
