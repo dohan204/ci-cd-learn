@@ -20,4 +20,6 @@ jobs:
     needs: compile_code
     steps:
       - name: Tien hanh deploy
-        run: echo "Dang deploy tren server..."
+        run: |
+          echo "Dang deploy tren server..."  
+          echo "token cua toi la: ${{ secrets.test }}"
