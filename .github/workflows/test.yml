@@ -4,7 +4,8 @@ name: Phan_1_Core_Components
 # | cho phép viết viết 1 chỗi gồm nhiều dòng liên tiếp không thì nó sẽ chỉ ở một dòng mà thôi
 on: 
   push: 
-    branches: ["main"]
+    branches: ["main", "test"]
+  
   workflow_dispatch:
 
 jobs:
