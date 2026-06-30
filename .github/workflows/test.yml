@@ -1,5 +1,7 @@
 name: Phan_1_Core_Components
 
+
+# | cho phép viết viết 1 chỗi gồm nhiều dòng liên tiếp không thì nó sẽ chỉ ở một dòng mà thôi
 on: 
   push: 
     branches: ["main"]
@@ -8,16 +10,25 @@ on:
 jobs:
   #kiểm tra lỗi và biên dịch code 
   compile_code:
-    runs-on: ubuntu-latest
-    steps:
+    runs-on: ubuntu-latest #Mượn tạm cái máy ảo của github
+    steps: # các bước khởi động
       - name: Lay code tu github ve may ao
         uses: actions/checkout@v4
 
+      - name: Deploy production 
+        if: github.ref == 'refs/heads/main'
+        run: echo "Dang deploy len server chinh thuc"
+
+
       - name: Gia lap chay test
         run: echo "Chay unit test ngon lanh..."
+
+      - name: Thong bao built loi 
+        if: failure()
+        run: echo "Toang rôi, code bị lỗi rồi"
   deploy_app: # chỉ chạy khi và chỉ khi job compile_code chạy thành công
     runs-on: ubuntu-latest
-    needs: compile_code
+    needs: compile_code # needs khi cần ràng buộc 1 điều gì đó
     steps:
       - name: Tien hanh deploy
         run: |
