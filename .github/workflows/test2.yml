@@ -1,0 +1,60 @@
+name: Vi_Du_Nang_Cao
+
+on: 
+  push: 
+    branches:
+      - test
+
+#NẾU push lien tiếp 2-3 commit, github sẽ tự động hủy các lần chạy cũ, chỉ giư lại lần chạy cuối
+concurrency: #chống nghẽn, xung đọt workflow 
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# env: biến toàn cục: Khai báo biến dùng chung cho tất cả các job
+env: 
+  PROJECT_NAME: "App_Test"
+  GLOBAL_VERSION: "2026.1.0"
+
+# default: cài đặt mặc đinh cho tất các job ở bên dưới
+# Ở đây cài mặc định: Mọi lệnh run nếu không nói gì thêm thì đề chạy trong thư mục /src
+
+defaults:
+  run: 
+    working-directory: './src'
+
+
+jobs:
+  build_job: 
+    runs-on: ubuntu-latest
+    outputs:
+      ma_san_pham: ${{ steps.tao_build.outputs.build_id}}
+
+    steps:
+      - name: Lay code ve
+        uses: actions/checkout@v4
+
+      - name: Kiem tra thu bien 
+        env: 
+          STEP_SECRET: "Ahihi"
+        run: | 
+          echo "Dang build du an: ${{ env.PROJECT_NAME}}"
+          echo "Phien ban: ${{ env.GLOBAL_VERSION}}"
+
+        # tạo ra dữ liệu và ném vào output 
+      - name: Tien hanh dong goi san pham 
+        id: tao_build # bắt buộc phải đặt Id Cho step thì mới lấy được output
+        run: |
+          echo "Đang nén file..."
+          #Cú pháp db của github để ghi dữ liệu vào output
+          echo  "build_id=SanPham_Goi_Thanh_Cong" >> $GITHUB_OUTPUT
+
+
+  deploy_job: 
+    runs-on: ubuntu-latest
+    needs: build_job # chờ cho tới khi build_job chạy xong thì mới có dữ liệu để lấy 
+    steps:
+      - name: tien hanh deploy voi file da build 
+        run: |
+          echo "Lấy file từ job trước qua để deploy: ${{needs.build_job.outputs.ma_san_pham}}"
+          echo "Ten du an van dung duoc o day: ${{env.PROJECT_NAME}}"
+  

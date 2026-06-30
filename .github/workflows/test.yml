@@ -11,6 +11,7 @@ on:
 jobs:
   #kiểm tra lỗi và biên dịch code 
   compile_code:
+    
     runs-on: ubuntu-latest #Mượn tạm cái máy ảo của github
     steps: # các bước khởi động
       - name: Lay code tu github ve may ao
@@ -21,8 +22,8 @@ jobs:
         run: echo "Dang deploy len server chinh thuc"
 
         # làm lỗi ở đây
-      - name: Gia lap loi test
-        run: Hủy_diệt_nó_Đi_anh_em
+      # - name: Gia lap loi test
+      #   run: Hủy_diệt_nó_Đi_anh_em
 
       - name: Gia lap chay test
         run: echo "Chay unit test ngon lanh..."
