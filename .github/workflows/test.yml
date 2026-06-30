@@ -20,13 +20,21 @@ jobs:
         if: github.ref == 'refs/heads/main'
         run: echo "Dang deploy len server chinh thuc"
 
+        # làm lỗi ở đây
+      - name: Gia lap loi test
+        run: Hủy_diệt_nó_Đi_anh_em
 
       - name: Gia lap chay test
         run: echo "Chay unit test ngon lanh..."
-
+        # cái này sẽ sáng đèn vì bước trên lỗi 
       - name: Thong bao built loi 
         if: failure()
         run: echo "Toang rôi, code bị lỗi rồi"
+
+
+      - name: Luon luon chay cho du dung hay sai
+        if: always()
+        run: echo "Trận đấu kết thúc cho dù đúng hay sai thì toi cũng vẫn in ra dòng này"
   deploy_app: # chỉ chạy khi và chỉ khi job compile_code chạy thành công
     runs-on: ubuntu-latest
     needs: compile_code # needs khi cần ràng buộc 1 điều gì đó
