@@ -1,0 +1,27 @@
+name: Thu_nghiem_artifacts
+
+on: 
+  push: 
+    branches:
+      - test
+
+jobs:
+  build_project: 
+    runs-on: ubuntu-latest
+    steps:
+      - name: lay code ve
+        uses: actions/checkout@v4
+
+
+        #giả lập tạo file sản phẩm và file log lỗi 
+      - name: Gia lap tao file san pham va file log loi 
+        run: |
+          mkdir -p build_output
+          echo "Đây là file chạy hoàn chỉnh của app!" > build_output/app.exe
+          echo "Log hệ thống: Mọi thứ chạy mượt mà lúc 2026" > he_thong_error.log
+
+      - name: Dong goi va upload san pham len github
+        uses: actions/upload-artifact@v4
+        with: 
+          name: san_pham_hoan_chinh
+          path: build_output/
