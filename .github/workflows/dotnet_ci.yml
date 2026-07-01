@@ -31,6 +31,20 @@ jobs:
 
       - name: Bien dich ma nguon (build)
         run: dotnet build --no-restore --configuration Release
+
+
+      # tự động xuất file sản phẩm hoàn chỉnh 
+      # lệnh này sẽ xuất file chạy ra một thư mục riêng tên publish_output
+      - name: Xuat ban ung dung 
+        run: dotnet publish --no-build --configuration Release --output ./publish_output
+
+
+      # day san pham len giao dien web
+      - name: luu tru file chay ung dung 
+        uses: actions/upload-artifact@v4
+        with:
+          name: Console_App_Hoan_Chinh # tên file zip hiển thị trên giao dienj để tải 
+          path: ./src/MyAppTest/publish_output/ # đường dẫn tới thư mục chứa file chạy hoàn chỉnh mà mình muốn upload lên github
       # chạy automation test
       # - name: Chay unit test
       #   run: dotnet test --no-build --verbosity normal
