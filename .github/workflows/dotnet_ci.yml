@@ -7,6 +7,10 @@ on:
   pull_request:
     branches: ["test"]
 
+permissions: 
+  pull-requests: write # cho phép nó comment vào pull request để báo lỗi nếu có
+
+
 defaults:
   run:
     working-directory: ./src/MyAppTest
@@ -17,6 +21,18 @@ jobs:
     steps:
       - name: Checkout ma nguon 
         uses: actions/checkout@v4
+
+      - name: Comment tin vao pr
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with: 
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.payload.pull_request.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: "Xin chào, mình là bot tự động build và test code .NET Core. Mình sẽ chạy build và test code của bạn ngay bây giờ."
+            })
 
       # cai dạt moi trường .net sdk  vào máy ảo 
       # day là action chính chủ từ ms để setup .NET cực nhanh
