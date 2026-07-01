@@ -1,0 +1,36 @@
+name: .Net_Core_CI
+
+
+on: 
+  push:
+    branches: ["test"]
+  pull_request:
+    branches: ["test"]
+
+defaults:
+  run:
+    working-directory: ./src/MyAppTest
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout ma nguon 
+        uses: actions/checkout@v4
+
+      # cai dạt moi trường .net sdk  vào máy ảo 
+      # day là action chính chủ từ ms để setup .NET cực nhanh
+      - name: Cai dat .NET Core SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0' # cáu hình version của .NET Core SDK mà mình muốn dùng, có thể là 3.1, 5.0, 6.0, 7.0, 8.0
+
+      # khoi phuc cac thu vien nuget
+      - name: Restore nuget packages
+        run: dotnet restore
+
+      - name: Bien dich ma nguon (build)
+        run: dotnet build --no-restore --configuration Release
+      # chạy automation test
+      # - name: Chay unit test
+      #   run: dotnet test --no-build --verbosity normal
