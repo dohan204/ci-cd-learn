@@ -22,6 +22,7 @@ jobs:
       - name: Checkout ma nguon 
         uses: actions/checkout@v4
 
+# check conbot 
       - name: Comment tin vao pr
         if: github.event_name == 'pull_request'
         uses: actions/github-script@v7
